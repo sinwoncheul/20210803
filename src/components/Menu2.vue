@@ -11,6 +11,7 @@
         <input type="button" @click="sendData" value="글쓰기" />
         
         <router-link to="/menu1">글목록으로</router-link>
+
     </div>
     
 </template>
