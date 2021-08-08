@@ -7,6 +7,10 @@
               <el-menu-item index="1">홈으로</el-menu-item>
               <el-menu-item index="2">게시판목록</el-menu-item>
               <el-menu-item index="3">게시판글쓰기</el-menu-item>
+
+              <el-menu-item index="4">회원가입</el-menu-item>
+                <el-menu-item index="5">로그인</el-menu-item>
+                   <el-menu-item index="6">마이페이지</el-menu-item>
             </el-menu>
           </el-header>
 
@@ -15,8 +19,9 @@
           </el-main>
 
           <el-footer>
-            <hr />
-            Footer
+            <div style="border-top:1px solid #efefef;">
+              Footer
+            </div>
           </el-footer>
         </el-container>
 
@@ -30,12 +35,21 @@ export default {
       if(val === '1'){
         this.$router.push({path:'/'})
       }
-      if(val === '2'){
+      else if(val === '2'){
         this.$router.push({path:'/menu1'})
       }
-      if(val === '3'){
+      else if(val === '3'){
         this.$router.push({path:'/menu2'})
       }      
+      else if(val === '4'){
+        this.$router.push({path:'/join'})
+      } 
+       else if(val === '5'){
+        this.$router.push({path:'/login'})
+      } 
+        else if(val === '6'){
+        this.$router.push({path:'/mypage'})
+      } 
       console.log(val);
     }
   }
@@ -55,7 +69,7 @@ export default {
   .el-main {
     /* background-color: #E9EEF3; */
     color: #333;
-    text-align: center;
+    
   }
 
   body > .el-container {
@@ -71,3 +85,4 @@ export default {
     line-height: 320px;
   }
 </style>
+
