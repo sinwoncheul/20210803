@@ -8,6 +8,7 @@ import Menu3 from '@/components/Menu3.vue';
 import Join from '@/components/Join.vue';
 import Login from '@/components/Login.vue';
 import Mypage from '@/components/Mypage.vue';
+import Seller from '@/components/Seller.vue';
 
 // url과 컴포넌트 매핑
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
     { path : '/join', name:"Join", component : Join },
     { path : '/login', name:"Login", component : Login },
     { path : '/mypage', name:"Mypage", component : Mypage },
+    { path : '/seller', name:"Seller", component : Seller  },
 ];
 
 // route 적용
