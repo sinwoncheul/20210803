@@ -30,6 +30,23 @@
 
 <script>
 export default {
+  created() {
+    // 주소창의 url정보 가져오기
+    const currentPath = window.location.pathname;
+    console.log(currentPath);
+    if(currentPath === '/') this.activeIndex = '1';
+    if(currentPath === '/menu1') this.activeIndex = '2';
+    if(currentPath === '/menu2') this.activeIndex = '3';
+    if(currentPath === '/join') this.activeIndex = '4';
+    if(currentPath === '/login') this.activeIndex = '5';
+  },
+
+  data() {
+    return {
+      activeIndex : '1',
+    }
+  },
+
   methods:{
     handleSelect(val){
       if(val === '1'){
@@ -43,14 +60,10 @@ export default {
       }      
       else if(val === '4'){
         this.$router.push({path:'/join'})
-      } 
-       else if(val === '5'){
+      }      
+      else if(val === '5'){
         this.$router.push({path:'/login'})
-      } 
-        else if(val === '6'){
-        this.$router.push({path:'/mypage'})
-      } 
-      console.log(val);
+      }            
     }
   }
 }

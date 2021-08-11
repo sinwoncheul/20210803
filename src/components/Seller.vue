@@ -80,15 +80,25 @@
     export default {
         methods : {
             async handleSave(){
+                // 메인 이미지 변경
                 const url = `/api_seller/imageupdate?code=${this.code}`;
                 const headers = { "Content-Type" : "multipart/form-data" };
                 const body = new FormData();
-
                 body.append("image", this.img[0]);
                 // 변경할 이미지는 this.img[0]
-
                 const result = await axios.put(url, body, {headers});
                 console.log(result);
+
+                // 서버 이미지 추가
+                const url1 = `/api_seller/image1?code=${this.code}`;
+                const headers1 = {"Content-Type" : "multipart/form-data"};
+                const body1 = new FormData();
+                body1.append("image", this.img[1]);
+                body1.append("image", this.img[2]);
+                body1.append("image", this.img[3]);
+                const result1 = await axios.post(url1, body1, {headers1});
+                console.log(result1);
+
 
                 // 다이어로그 숨기기
                 this.dialogVisible = false
