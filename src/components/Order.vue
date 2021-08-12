@@ -12,12 +12,12 @@
         가격 : {{item.price}}<br />
         설명 : {{item.text}} <br />
         주문개수 
-        <select>
+        <select v-model="cnt">
             <option v-for="num in item.quantity" v-bind:key="num">
                 {{num}}
             </option>
-        </select>
-        <el-button style="margin-top:5px;" @click="handlebtn(items[idx]._id)" type="primary">주문하기</el-button>
+        </select> <br />
+        <el-button style="margin-top:5px;" @click="handleOrder" type="primary">주문하기</el-button>
 
           
       </el-card>
@@ -32,6 +32,14 @@ import axios from 'axios'
 
 
  export default {
+     methods : {
+         handleOrder()  {
+             this.$router.push({
+                 path:'/orderaction',
+                 query:{ code: this.code, cnt : this. cnt}
+             });
+         }
+     },
      async created() {
          const url = `/api_seller/selectone?code=${this.code}`
          const headers =  {"Content-Type" : "application/json"}
@@ -44,8 +52,9 @@ import axios from 'axios'
      data() {
          return {
              //이전페이지에서 전달되는 code를 code변수에 넣음
-             code : this.$route.query.code,
-             item : '',
+             code : this.$route.query.code, // 현재물품번호
+             item : '',                     // 현재 물품 정보들
+             cnt  : 10,                     // 변경한 주문 수량
            
              
          }

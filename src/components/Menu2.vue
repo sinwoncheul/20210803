@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div style="text-align: center;" >
 
         <h3>글쓰기</h3>
         <hr />
@@ -8,9 +8,12 @@
         내용 : <textarea rows="7" v-model="content"></textarea><br/>
         작성자 : <input type="text" v-model="writer" /><br />
         이미지 : <input type="file" @change="handleImage" /><br />
-        <input type="button" @click="sendData" value="글쓰기" />
+        <el-button type="primary" @click="sendData" >글쓰기</el-button>
+            
+        <el-link to="/menu1" type="warning">글목록으로</el-link>
         
-        <router-link to="/menu1">글목록으로</router-link>
+        <!-- <el-button type="primary" @click="sendData" >글쓰기</el-button>
+        <el-link to="/menu1" type="warning">글목록으로</el-link> -->
 
     </div>
     

@@ -18,10 +18,16 @@
                 const url = `/member/login`;
                 const response = await axios.post(url, body, header); 
                 console.log(response);
-                if(response.data.ret === 1){
+                if( response.data.ret === 1 ) {
                     sessionStorage.setItem("TOKEN", response.data.jwtToken.token);
                     alert('로그인 되었습니다.');
-                    this.$router.push({path:'/'})
+                    
+                    var url1 = sessionStorage.getItem("URL");
+                    url1     = JSON.parse(url1); //string -> object
+                    console.log(typeof(url1));
+                    console.log(url1);
+                    
+                    this.$router.push({path:url1.path, query:url1.query})
                 }
             }
         },
