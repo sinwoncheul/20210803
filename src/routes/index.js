@@ -12,6 +12,7 @@ import Seller from '@/components/Seller.vue';
 import Order from '@/components/Order.vue';
 import OrderAction from '@/components/OrderAction.vue';
 import Orderlist from '@/components/Orderlist.vue';
+import Logout from '@/components/Logout.vue';
 import axios from 'axios';
     
 
@@ -29,6 +30,7 @@ const routes = [
     { path : '/order', name:"Order", component : Order  },
     { path : '/orderaction', name:"OrderAction", component : OrderAction  },
     { path : '/orderlist', name:"Orderlist", component : Orderlist  },
+    { path : '/logout', name:"Logout", component : Logout  },
 ];
 
 // route 적용

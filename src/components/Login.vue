@@ -27,7 +27,14 @@
                     console.log(typeof(url1));
                     console.log(url1);
                     
-                    this.$router.push({path:url1.path, query:url1.query})
+                    if(url1 !== null) {
+                        this.$router.push({path:url1.path, query:url1.query})
+                    }
+                    else {
+                        this.$router.push({path:'/'})
+
+                        this.$emit('changeLogged', true);
+                    }
                 }
             }
         },

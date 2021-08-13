@@ -7,6 +7,7 @@
         <input type="button" @click="menu = 2" value="암호변경" />
         <input type="button" @click="handleDelete" value="회원탈퇴" />
         <input type="button" @click="handleLogout" value="로그아웃" />
+        <input type="button" @click="handleOrderList" value="주문목록" />
         <hr />
         <div v-if="menu === 1">
             이름 : <input type="text" v-model="name" />
@@ -19,6 +20,16 @@
                     placeholder="변경할 암호" />
                 <input type="button" @click="handleChangePw" value="암호변경" />
             </form>
+        </div>  
+        <div v-else-if="menu === 5">  
+            <div v-for="item in items" v-bind:key="item">
+                <input type="checkbox" />
+                {{item._id}}
+                {{item.email}}
+                {{item.cnt}}
+                <input type="button" value="주문취소" />
+            </div>   
+            <input type="button" @click="chks" value="선택주문취소" />
         </div>    
     </div>
 </template>
@@ -27,9 +38,37 @@
     import axios from 'axios';
 
     export default {
-        methods:{
+     methods :{
+            // 선택된 주문 삭제
+            async handleDeleteCheck (){
+                const url = `/api_seller/orderdelete`;
+                const response = await axios.delete(url, {
+                    headers: {
+                        "Content-Type" : "application/json", 
+                        "token" : this.token 
+                    },
+                    data: {
+                        arrNo: this.chks
+                    }
+                });
+                console.log(response);
+            },
+            async handleOrderList() {
+                if(this.token !== null){
+                    const url = `/api_seller/orderlist`;
+                    const headers = { 
+                        "Content-Type" : "application/json", 
+                        "token" : this.token 
+                    };
+                    const response = await axios.get(url, {headers});
+                    if(response.data.ret === 1){
+                        this.items = response.data.data;
+                    }
+                }
+                this.menu = 5;
+            },
 
-           async handleDelete() {
+            async handleDelete() {
                 const ret = confirm('탈퇴 할까요?'); // Y or N
                 if( ret ) {
                     // [DELETE] /member/delete     
@@ -50,27 +89,10 @@
                 }
             },
 
-                async handleLogout() {
-                const ret = confirm('로그아웃 할까요?'); // Y or N
-                if( ret ) {
-                    // [POST] /member/logout
-                    const token = sessionStorage.getItem("TOKEN");
-                    if (token !== null) {
-                        const headers = { 
-                            "Content-Type" : "application/json",
-                            "token" : token
-                        };
-                        const url  = `/member/logout`;
-                        const body = {};
-                        const response = await axios.post(url, body, {headers});
-                        console.log(response);
-                        if(response.data.ret === 1){
-                            alert(response.data.data);
-                            this.$router.push({path:'/'});
-                        }
-                    }
-                }
+            async handleLogout() {
+                this.$router.push({path:'/logout'});
             },
+
             // 암호 변경
             handleChangePw : async function(e) {
                 e.preventDefault(); // form전송되는것 막기
@@ -118,10 +140,14 @@
         },
         data() {
            return {
-               menu     : 1,
-               name     : '',
-               phone    : '',
-               password : '',
+                menu     : 1,
+                name     : '',
+                phone    : '',
+                password : '',
+            
+                token : sessionStorage.getItem("TOKEN"), 
+                items : [],
+                chks  : [],
            }
        }     
     }

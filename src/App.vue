@@ -3,19 +3,20 @@
 
         <el-container>
           <el-header>
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" router="true">
               <el-menu-item index="1">홈으로</el-menu-item>
               <el-menu-item index="2">게시판목록</el-menu-item>
               <el-menu-item index="3">게시판글쓰기</el-menu-item>
-              <el-menu-item v-if="!logged" index="4">회원가입</el-menu-item> 
-              <el-menu-item v-if="!logged" index="5">로그인</el-menu-item>
-              <el-menu-item v-if="logged" index="6">마이페이지</el-menu-item>
-              <el-menu-item v-if="logged" index="7">로그아웃</el-menu-item>
+              <el-menu-item v-if="logged === false" index="4">회원가입</el-menu-item>
+              <el-menu-item v-if="logged === false" index="5">로그인</el-menu-item>
+              <el-menu-item v-if="logged === true" index="6">마이페이지</el-menu-item>
+              <el-menu-item v-if="logged === true" index="7">로그아웃</el-menu-item>
             </el-menu>
           </el-header>
 
           <el-main>
-            <router-view></router-view>
+            <router-view @changeLogged="changeLogged"
+              @changeActiveIndex="changeActiveIndex"></router-view>
           </el-main>
 
           <el-footer>
@@ -31,6 +32,8 @@
 <script>
 import axios from 'axios';
 export default {
+
+  // 최초1회만
   async created() {
     // 주소창의 url정보 가져오기
     const currentPath = window.location.pathname;
@@ -47,7 +50,7 @@ export default {
         const url = `/member/validtoken`;
         const headers = { 
             "Content-Type" : "application/json", 
-            "token":token 
+            "token" : token 
         };
         const response = await axios.get(url, {headers});
         console.log(response);
@@ -64,8 +67,19 @@ export default {
     }
   },
 
-  methods:{
+  methods : {
+    // 자식으로 부터 전달되는 activeindex의 상태 값  ("1" ~ "7")
+    changeActiveIndex(index){
+      this.activeIndex = index;
+    },
+
+    // 자식으로 부터 전달되는 로그인의 상태 변경 값. (T or F)
+    changeLogged(logged) {
+      this.logged = logged;
+    },
+
     handleSelect(val){
+      this.activeIndex = val;
       if(val === '1'){
         this.$router.push({path:'/'})
       }
@@ -80,14 +94,18 @@ export default {
       }      
       else if(val === '5'){
         this.$router.push({path:'/login'})
-      }    
-         else if(val === '6'){
+      } 
+      else if(val === '6'){
         this.$router.push({path:'/mypage'})
-      }         
+      }      
+      else if(val === '7'){
+        this.$router.push({path:'/logout'})
+      }              
     }
   }
 }
 </script>
+
 
 <style>
   .el-header, .el-footer {
@@ -106,6 +124,7 @@ export default {
 
   body > .el-container {
     margin-bottom: 40px;
+    
   }
 
   .el-container:nth-child(5) .el-aside,
